@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #FFFFFF;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #11142C 0%, #1a114e 100%);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+*::-webkit-scrollbar-track {
+  display: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  display: none;
+}
+
+/* Chrome, Edge, and Safari */
+.scroler::-webkit-scrollbar {
+  display: none;
+}
+
+.scroler::-webkit-scrollbar-track {
+  display: none;
+}
+
+.scroler::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.scroler::-webkit-scrollbar-thumb:hover {
+  display: none;
+}
+
+.textRGBGradient {
+  background: linear-gradient(42deg, #a6caff 0%, #d3b8ff 50%, #b8a6ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
