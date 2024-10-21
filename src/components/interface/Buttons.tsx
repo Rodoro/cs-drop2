@@ -58,9 +58,9 @@ const GradientButton = ({ children, ...props }: any) => {
     )
 }
 
-const GradientButton2 = ({ children, ...props }: any) => {
+const GradientButton2  = ({ children, className, onClick, ...props }: {children : any; className ?: string; onClick: () => void; props ?: any}) => {
     return (
-        <div {...props} className='cursor-pointer flex flex-row gap-2 w-full h-full py-5 items-center justify-center rounded-2xl shadow-[0_10px_79px_0_rgba(146,105,213,0.20)]' style={{ border: "2px solid transparent", background: "linear-gradient(0deg,rgba(17, 22, 45, 1),rgba(17, 22, 45, 1)) padding-box, linear-gradient(90deg,rgba(31, 161, 255, 0.3),rgba(106, 18, 250, 0.3),rgba(184, 166, 255, 0.3)) border-box" }} >
+        <div {...props} onClick={() => onClick()} className={className + ' cursor-pointer flex flex-row gap-2 w-full h-full py-5 items-center justify-center rounded-2xl shadow-[0_10px_79px_0_rgba(146,105,213,0.20)]'} style={{ border: "2px solid transparent", background: "linear-gradient(0deg,rgba(17, 22, 45, 1),rgba(17, 22, 45, 1)) padding-box, linear-gradient(90deg,rgba(31, 161, 255, 0.3),rgba(106, 18, 250, 0.3),rgba(184, 166, 255, 0.3)) border-box" }} >
             {children}
         </div >
     )

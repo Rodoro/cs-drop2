@@ -1,5 +1,6 @@
 .container {
     position: relative;
+    transform: translateX(3200px);
     /*
   
     left: 0; Тоже укажите, иначе transition не будет работать
@@ -7,5 +8,9 @@
     */
     left: 0;
     display: inline-flex;
-    transition: 20s ease;
+    /* transition: 20s ease-in-out; */
+}
+
+.item {
+    transition: 0.5s linear;
 }

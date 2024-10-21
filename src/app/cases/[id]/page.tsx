@@ -15,6 +15,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import useProfile from '@/hook/useProfile'
 import style from './opencase.module.css'
+import { frame, motion, useAnimation, useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion'
 
 const getData = async (id: string) => {
     return await axiosClassic.get('/ui/content/case-content?caseId=' + id)
@@ -28,11 +29,17 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
     const [position, setPosition] = useState<string>("view")
     const [lootCase, setLootCase] = useState<any>()
 
+    const x = useMotionValue(3200)
+    const controls = useAnimation();
+
     const user = useProfile()
     const [winLoot, setWinLoot] = useState<any>(null)
     const wheelRef = useRef<HTMLDivElement>(null);
     const wheelRef2 = useRef<HTMLDivElement>(null);
     const [move, setMove] = useState(0)
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+
+    const refs = useRef<(HTMLDivElement | null)[]>([]);
 
     const [images, setImages] = useState(Array.from({ length: 35 }, (_, i) => `/img/example/ak47.png`)
         .concat(['/img/example/batman-def.png', '/img/example/ak47.png', '/img/example/ak47.png']));
@@ -43,6 +50,12 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
         select: data => data.data
     })
 
+    const playVideo = () => {
+        if (videoRef.current) {
+            videoRef.current.play();
+        }
+    };
+
     useEffect(() => {
         if (isSuccess) {
             setLootCase(data.result)
@@ -52,6 +65,8 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
     useEffect(() => {
         if (wheelRef.current) wheelRef.current.style.transform = `translateX(${move}px)`;
     }, [move])
+
+    const size = 1000
 
     const openCase = async () => {
         const res = await (await axiosWithAuthUser.post('/ui/users/open-case?caseId=' + params.id)).data.result[0]
@@ -71,14 +86,113 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                 }
             }))
             setPosition('spin')
-            setMove(-200 * 32);
-            // if (wheelRef2.current) console.log(wheelRef2.current.clientWidth)
+            playVideo()
+            // setMove(-200 * 16 + 100);
+            controls.start({ x: -200 * 16 + 100, transition: { duration: 20, easing: "ease-in-out" } })
+            if (wheelRef2.current) console.log(wheelRef2.current.offsetWidth)
+            // setScale()
+
             let timeoutId: NodeJS.Timeout;
             timeoutId = setTimeout(() => {
-                setPosition('win')
-            }, 21500);
+                if (videoRef.current) {
+                    videoRef.current.pause();
+                }
+                // setPosition('win')
+            }, 21000);
         }
     }
+
+    useEffect(() => {
+        const unsubscribe = x.onChange((latest) => {
+            // console.log('Текущее значение x:', latest);
+
+            refs.current.forEach((ref, index) => {
+                if (ref) {
+                    ref.style.transform = 'scale(1)'
+                    if (latest <= (-index * 200) + 3050 + size) {
+                        ref.style.transform = 'scale(1.1)'
+                    }
+                    if (latest <= (-index * 200) + 3000 + size) {
+                        ref.style.transform = 'scale(1.2)'
+                    }
+                    if (latest <= (-index * 200) + 2950 + size) {
+                        ref.style.transform = 'scale(1.3)'
+                    }
+                    if (latest <= (-index * 200) + 2900 + size) {
+                        ref.style.transform = 'scale(1.4)'
+                    }
+                    if (latest <= (-index * 200) + 2800 + size) {
+                        ref.style.transform = 'scale(1.8)'
+                    }
+                    if (latest <= (-index * 200) + 2650 + size) {
+                        ref.style.transform = 'scale(1.4)'
+                    }
+                    if (latest <= (-index * 200) + 2550 + size) {
+                        ref.style.transform = 'scale(1.3)'
+                    }
+                    if (latest <= (-index * 200) + 2500 + size) {
+                        ref.style.transform = 'scale(1.2)'
+                    }
+                    if (latest <= (-index * 200) + 2450 + size) {
+                        ref.style.transform = 'scale(1.1)'
+                    }
+                    if (latest <= (-index * 200) + 2400 + size) {
+                        ref.style.transform = 'scale(1)'
+                    }
+                }
+            })
+        });
+
+        return () => unsubscribe();
+    }, [x]);
+
+    // frame.render(() => console.log(x.get()))
+
+    // useEffect(() => {
+    //     console.log(x.get())
+    // }, [x.get()])
+
+    // const x = useMotionValue(0)
+
+    // useMotionValueEvent(x, "animationStart", () => {
+    //     console.log("animation started on x")
+    // })
+
+    // useMotionValueEvent(x, "change", (latest) => {
+    //     console.log("x changed to", latest)
+    // })
+
+    // useEffect(() => {
+    //     if (wheelRef.current) console.log(wheelRef.current.offsetLeft)
+    //     // console.log(refs.current[34]?.clientWidth)
+    // }, [position])
+
+    // const handleWheel = (event: any, id: string) => {
+    //     console.log(event)
+    //     if (event.deltaX < 0) {
+    //         if (wheelRef.current) {
+    //             console.log(`Offset left: ${wheelRef.current.offsetLeft}`);
+    //         }
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     let intervalId: NodeJS.Timeout;
+    //     if (position == 'spin') {
+    //         intervalId = setInterval(() => {
+
+    //             console.log('offsetLeft:', x.get());
+
+    //         }, 10);
+    //     }
+
+    //     return () => {
+    //         if (intervalId) {
+    //             clearInterval(intervalId);
+    //         }
+    //     };
+    // }, [position]);
+
 
     return (
         <div>
@@ -155,39 +269,80 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                     </div>
                 }
             </div>
-            <div ref={wheelRef2} className={(position == 'spin' ? " " : " hidden ") + ' mb-[650px] relative flex gap-7 flex-col items-center justify-center'}>
-                <div className='relative bg-[url(/img/interface/bg/case-win.png)] max-w-[1101px] z-[1] w-full bg-center bg-no-repeat h-[250px] rounded-[30px]' style={{ backgroundSize: "auto 100%" }}>
-                    <div className={'w-full h-full overflow-hidden flex items-center'}>
-                        <div ref={wheelRef} className={style.container + ' scroler relative left-0 inline-flex m-auto'}>
-                            {Object.values(images).map((image, index) => (
-                                <div
-                                    key={index}
-                                    className={`w-[200px] min-w-[200px] h-[100px]  flex items-center justify-center`}
-                                >
-                                    <Image
-                                        src={image}
-                                        alt="Lottery Wheel Image"
-                                        width={100}
-                                        height={100}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-row justify-center max-w-56 w-full sm:max-w-44 z-10">
-                    <GradientButton2 onClick={() => { setPosition('win'); setMove(0) }}>
+            <div className={(position == 'spin' ? " " : " hidden ") + ' mb-[650px] relative flex gap-7 flex-col items-center justify-center'}>
+                <div className='relative bg-[url(/img/interface/bg/case-spin.png)] max-w-[1101px] z-[1] w-full bg-center bg-no-repeat h-[400px] rounded-[30px]' style={{ backgroundSize: "auto 100%" }}>
+                    {/* <svg className='absolute m-auto left-0 right-0 top-0 bottom-0 opacity-70' width={14} height={172} viewBox="0 0 14 207" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.5 207L0 0H14L6.5 207Z" fill="url(#paint0_linear_570_48018)" />
+                        <defs>
+                            <linearGradient id="paint0_linear_570_48018" x1="6.5" y1={0} x2="6.5" y2={207} gradientUnits="userSpaceOnUse">
+                                <stop offset="0.2" stopColor="#CFB9FF" />
+                                <stop offset="0.405" stopColor="#7A3BFF" />
+                                <stop offset="0.76" stopColor="#294BFD" stopOpacity="0.6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <svg className='absolute m-auto left-0 right-0 top-0 bottom-0' width={474} height={297} viewBox="0 0 474 297" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g style={{ mixBlendMode: 'hard-light' }} opacity="0.2" filter="url(#filter0_f_570_48068)">
+                            <path d="M330 141C330 192.362 288.362 234 237 234C185.638 234 144 192.362 144 141C144 89.6375 185.638 48 237 48C288.362 48 330 89.6375 330 141Z" fill="#821FFF" />
+                        </g>
+                        <defs>
+                            <filter id="filter0_f_570_48068" x="0.143097" y="-95.8569" width="473.714" height="473.714" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                <feFlood floodOpacity={0} result="BackgroundImageFix" />
+                                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                <feGaussianBlur stdDeviation="71.9285" result="effect1_foregroundBlur_570_48068" />
+                            </filter>
+                        </defs>
+                    </svg> */}
+                    <GradientButton2 className='absolute max-w-[171px] max-h-[50px]' onClick={() => { setPosition('win'); controls.start({ x: 3200 }) }}>
                         <div className="text-gray-50 text-center text-sm font-semibold leading-[normal]">Skip animation</div>
                     </GradientButton2>
+                    <div id='conteiner-spin' ref={wheelRef2} className={'w-full h-full overflow-hidden flex items-center justify-center'}>
+                        <motion.div
+                            // initial={{ x: 3200 }}
+                            style={{ x }}
+                            // transition={{duration: 20, easing: "ease-in-out"}}
+                            // animate={{ x: (-200 * 16 + 100)}}
+                            animate={controls}
+                            ref={wheelRef}
+                            className={style.container + ' scroler relative left-0 inline-flex m-auto '}
+                        >
+                            {Object.values(images).map((image, index) => {
+                                return (
+                                    <motion.div
+
+                                        // whileInView={{ opacity: 1 }}
+                                        // onWheel={(e) => handleWheel(e, String(index))}
+                                        ref={(el) => { refs.current[index] = el; }}
+                                        key={index}
+                                        className={style.item + ` w-[200px] min-w-[200px] h-[100px] flex items-center justify-center`}
+                                    // className={style.item + ` w-[200px] min-w-[200px] h-[100px] bg-slate-600 border-white border-1 border flex items-center justify-center`}
+                                    >
+                                        <Image
+                                            src={image}
+                                            alt="Lottery Wheel Image"
+                                            width={100}
+                                            height={100}
+                                        />
+                                    </motion.div>
+                                )
+                            })}
+                        </motion.div>
+                    </div>
                 </div>
-                <video width="1282" className='absolute -top-9 right-0 left-2 m-auto' autoPlay playsInline muted preload='none' loop >
+                {/* <div className="flex flex-row justify-center max-w-56 w-full sm:max-w-44 z-10">
+                    <GradientButton2 onClick={() => { setPosition('win'); controls.start({ x: 3200 }) }}>
+                        <div className="text-gray-50 text-center text-sm font-semibold leading-[normal]">Skip animation</div>
+                    </GradientButton2>
+                </div> */}
+                {/* TODO: Старт анимации при нажатие */}
+                <video ref={videoRef} width="1282" className='absolute -top-9 right-0 left-2 m-auto' playsInline muted preload='none' loop >
                     <source src="/video/open-case.webm" type="video/webm" />
                     Your browser does not support the video tag.
                 </video>
                 {/* <Image
-                    src={'/img/example/open-case.png'} alt={'maskot'} width={'1228'} height={120}
-                    className='absolute -top-9 right-0 left-2 m-auto'
-                /> */}
+                src={'/img/example/open-case.png'} alt={'maskot'} width={'1228'} height={120}
+                className='absolute -top-9 right-0 left-2 m-auto'
+            /> */}
             </div>
             <div className={(position == 'win' ? '' : 'hidden ') + 'flex flex-col items-center justify-center w-full gap-7'}>
                 <div className='-z-10 relative bg-[url(/img/interface/bg/case-win.png)] max-w-[1101px] w-full bg-center bg-no-repeat rounded-[30px] py-5 items-center justify-center flex' style={{ backgroundSize: "auto 100%" }}>
@@ -208,7 +363,7 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                     </svg>
                 </div>
                 <div className="flex flex-row justify-center max-w-56 w-full sm:max-w-44 z-10">
-                    <GradientButton2 onClick={() => { setPosition('view'); setMove(0) }}>
+                    <GradientButton2 onClick={() => { setPosition('view'); controls.start({ x: 3200 }) }}>
                         <svg width={14} height={14} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_588_56777)">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M4.91778 0.398995C6.19606 0.0519144 7.54986 0.103643 8.79793 0.547255C10.046 0.990867 11.1288 1.80519 11.9012 2.88118V1.59337C11.9012 1.43175 11.9654 1.27676 12.0797 1.16248C12.194 1.0482 12.349 0.983995 12.5106 0.983995C12.6722 0.983995 12.8272 1.0482 12.9415 1.16248C13.0558 1.27676 13.12 1.43175 13.12 1.59337V5.0465H9.66684C9.50522 5.0465 9.35023 4.98229 9.23595 4.86801C9.12167 4.75373 9.05746 4.59874 9.05746 4.43712C9.05746 4.2755 9.12167 4.12051 9.23595 4.00623C9.35023 3.89195 9.50522 3.82775 9.66684 3.82775H11.07C10.4336 2.83202 9.48154 2.07852 8.36624 1.68781C7.25094 1.29709 6.03682 1.29173 4.91812 1.67259C3.79941 2.05344 2.84077 2.7985 2.19554 3.78856C1.55032 4.77863 1.2558 5.9565 1.35911 7.13374C1.46242 8.31097 1.95758 9.41954 2.76538 10.2821C3.57318 11.1447 4.64694 11.7114 5.81488 11.8916C6.98282 12.0717 8.17745 11.855 9.20765 11.276C10.2379 10.697 11.0441 9.78923 11.4974 8.69787C11.5268 8.62221 11.5711 8.55319 11.6275 8.49486C11.684 8.43654 11.7516 8.39008 11.8262 8.35823C11.9009 8.32638 11.9812 8.30977 12.0624 8.30937C12.1436 8.30898 12.224 8.32481 12.299 8.35594C12.374 8.38707 12.442 8.43287 12.499 8.49064C12.556 8.54842 12.601 8.61701 12.6311 8.69238C12.6613 8.76775 12.6761 8.8484 12.6746 8.92957C12.6732 9.01074 12.6555 9.0908 12.6227 9.16506C12.1992 10.1844 11.5232 11.0791 10.6583 11.7648C9.79333 12.4505 8.76802 12.9047 7.67899 13.0845C6.58996 13.2643 5.47308 13.1638 4.43363 12.7925C3.39418 12.4212 2.4664 11.7914 1.73774 10.9623C1.00909 10.1332 0.503561 9.13221 0.268817 8.05369C0.0340727 6.97516 0.077843 5.85463 0.396002 4.7977C0.714161 3.74077 1.29623 2.78228 2.08734 2.01256C2.87844 1.24284 3.85253 0.688072 4.91778 0.398995Z" fill="white" />
