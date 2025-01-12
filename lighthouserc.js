@@ -1,5 +1,4 @@
-
-{
+module.exports = {
     "ci": {
         "collect": {
             "startServerCommand": "npm run start",
