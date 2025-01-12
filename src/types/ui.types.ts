@@ -29,6 +29,7 @@ export interface IItemMathRating {
 }
 
 export interface IItemMathCard {
+    id: number;
     time: string;
     teams: ITeameMath[];
     isLive: boolean;

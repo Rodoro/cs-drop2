@@ -19,15 +19,15 @@ const variants = {
 }
 
 const matchs: IItemMathCard[] = [
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "0" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "500" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "0" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "500" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "0" },
-    { time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
+    { id: 1, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "0" },
+    { id: 2, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "500" },
+    { id: 3, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
+    { id: 4, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "0" },
+    { id: 5, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "500" },
+    { id: 6, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
+    { id: 7, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
+    { id: 8, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: true, current: '125,8', yourBid: "0" },
+    { id: 9, time: "Apr. 15 - 23:00", teams: [{ name: '9 Pandas', iconUrl: '/img/example/panda.png' }, { name: 'Guild Esports', iconUrl: '/img/example/esports.png' }], isLive: false, current: '125,8', yourBid: "500" },
 ]
 
 const MatchPage = () => {

@@ -12,5 +12,5 @@
 }
 
 .item {
-    transition: 0.5s linear;
+    transition: transform 0.2s linear, backdrop-filter 0.2s linear;
 }

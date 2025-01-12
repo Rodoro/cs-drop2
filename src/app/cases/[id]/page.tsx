@@ -52,6 +52,7 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
 
     const playVideo = () => {
         if (videoRef.current) {
+            videoRef.current.currentTime = 0;
             videoRef.current.play();
         }
     };
@@ -74,6 +75,7 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
         if (isAnim) {
             setPosition('win')
         } else {
+            playVideo()
             setImages(Object.values(images).map((image, index) => {
                 if (index < 38 && index != 34) {
                     // TODO: Больше рандомного дропа в спине
@@ -86,9 +88,8 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                 }
             }))
             setPosition('spin')
-            playVideo()
             // setMove(-200 * 16 + 100);
-            controls.start({ x: -200 * 16 + 100, transition: { duration: 20, easing: "ease-in-out" } })
+            controls.start({ x: -200 * 16 + 100, transition: { duration: 6, easing: "ease-out" } })
             if (wheelRef2.current) console.log(wheelRef2.current.offsetWidth)
             // setScale()
 
@@ -97,8 +98,8 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                 if (videoRef.current) {
                     videoRef.current.pause();
                 }
-                // setPosition('win')
-            }, 21000);
+                setPosition('win')
+            }, 7500);
         }
     }
 
@@ -109,35 +110,46 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
             refs.current.forEach((ref, index) => {
                 if (ref) {
                     ref.style.transform = 'scale(1)'
-                    if (latest <= (-index * 200) + 3050 + size) {
+                    ref.style.filter = 'blur(6px)'
+                    if (latest <= (-index * 200) + 3100 + size) {
                         ref.style.transform = 'scale(1.1)'
+                        ref.style.filter = 'blur(3px)'
+                    }
+                    if (latest <= (-index * 200) + 3050 + size) {
+                        ref.style.transform = 'scale(1.2)'
+                        ref.style.filter = 'blur(2px)'
                     }
                     if (latest <= (-index * 200) + 3000 + size) {
-                        ref.style.transform = 'scale(1.2)'
+                        ref.style.transform = 'scale(1.3)'
+                        ref.style.filter = 'blur(1px)'
                     }
                     if (latest <= (-index * 200) + 2950 + size) {
-                        ref.style.transform = 'scale(1.3)'
-                    }
-                    if (latest <= (-index * 200) + 2900 + size) {
                         ref.style.transform = 'scale(1.4)'
+                        ref.style.filter = 'blur(0px)'
                     }
-                    if (latest <= (-index * 200) + 2800 + size) {
+                    if (latest <= (-index * 200) + 2850 + size) {
                         ref.style.transform = 'scale(1.8)'
+                        ref.style.filter = 'blur(0px)'
                     }
                     if (latest <= (-index * 200) + 2650 + size) {
                         ref.style.transform = 'scale(1.4)'
+                        ref.style.filter = 'blur(0px)'
                     }
                     if (latest <= (-index * 200) + 2550 + size) {
                         ref.style.transform = 'scale(1.3)'
+                        ref.style.filter = 'blur(0px)'
                     }
                     if (latest <= (-index * 200) + 2500 + size) {
                         ref.style.transform = 'scale(1.2)'
+                        ref.style.filter = 'blur(0px)'
                     }
                     if (latest <= (-index * 200) + 2450 + size) {
                         ref.style.transform = 'scale(1.1)'
+                        ref.style.filter = 'blur(1px)'
                     }
                     if (latest <= (-index * 200) + 2400 + size) {
                         ref.style.transform = 'scale(1)'
+                        ref.style.filter = 'blur(2px)'
                     }
                 }
             })
@@ -293,10 +305,17 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                             </filter>
                         </defs>
                     </svg> */}
-                    <GradientButton2 className='absolute max-w-[171px] max-h-[50px]' onClick={() => { setPosition('win'); controls.start({ x: 3200 }) }}>
+                    {/* <div
+                        className='absolute bg-slate-500 w-[200px] h-[200px] left-0 m-auto bottom-0 top-0 z-10'
+                        style={{
+                            background: 'linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, transparent 100%)',
+                            backdropFilter: 'blur(10px)'
+                        }}
+                    /> */}
+                    <GradientButton2 className='absolute max-w-[171px] max-h-[50px] bottom-6 m-auto left-0 right-0 z-[5]' onClick={() => { setPosition('win'); controls.start({ x: 3200 }) }}>
                         <div className="text-gray-50 text-center text-sm font-semibold leading-[normal]">Skip animation</div>
                     </GradientButton2>
-                    <div id='conteiner-spin' ref={wheelRef2} className={'w-full h-full overflow-hidden flex items-center justify-center'}>
+                    <div id='conteiner-spin' ref={wheelRef2} className={'w-full h-full overflow-hidden flex justify-center'}>
                         <motion.div
                             // initial={{ x: 3200 }}
                             style={{ x }}
@@ -304,7 +323,7 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                             // animate={{ x: (-200 * 16 + 100)}}
                             animate={controls}
                             ref={wheelRef}
-                            className={style.container + ' scroler relative left-0 inline-flex m-auto '}
+                            className={style.container + ' scroler relative left-0 inline-flex mt-28 '}
                         >
                             {Object.values(images).map((image, index) => {
                                 return (
@@ -335,7 +354,7 @@ const OpenCase = ({ params }: { params: { id: string } }) => {
                     </GradientButton2>
                 </div> */}
                 {/* TODO: Старт анимации при нажатие */}
-                <video ref={videoRef} width="1282" className='absolute -top-9 right-0 left-2 m-auto' playsInline muted preload='none' loop >
+                <video ref={videoRef} width="1282" className='absolute -top-16 right-0 left-2 m-auto' playsInline muted preload='none' loop >
                     <source src="/video/open-case.webm" type="video/webm" />
                     Your browser does not support the video tag.
                 </video>

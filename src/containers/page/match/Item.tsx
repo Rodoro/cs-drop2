@@ -1,11 +1,14 @@
+'use client'
 import { IItemMathCard, IItemMathPrev } from "@/types/ui.types"
 import { motion } from "framer-motion"
 import Image from 'next/image'
 import { FaRegCalendar } from "react-icons/fa"
-
+import { useRouter } from 'next/navigation'
 
 
 const ItemCardMatch = ({ item, scale, onMouseEnter, onMouseLeave, ...props }: { item: IItemMathCard, scale?: boolean | null, onMouseEnter: () => void, onMouseLeave: () => void }) => {
+    const router = useRouter()
+    
     const itemVar = {
         hidden: {
             opacity: 0,
@@ -26,7 +29,7 @@ const ItemCardMatch = ({ item, scale, onMouseEnter, onMouseLeave, ...props }: { 
     return (
         <motion.li
             // variants={itemVar}
-
+            onClick={() => router.push('/match/' + item.id)}
             className="cursor-pointer flex relative flex-col justify-between items-center max-w-[322px] h-[242px] w-full rounded-[20px]"
             style={{
                 zIndex: scale ? 0 : 1,
